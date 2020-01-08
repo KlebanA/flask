@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+<div class="panel panel-success">
+    <div class="panel-body">
+        <strong>Hi {{ current_user.name }}!</strong>
+        <br>
+        <p>Click <a href="/logout">here</a> to logout.</p>
+        <br>
+    </div>
+</div>
+
+<!-- post form -->
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Add a Post!</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-message" role="form" method="post" action="/">
+          {{ form.csrf_token }}
+          <p>
+            {{ form.title(placeholder="title") }}
+            <span class="error">
+              {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+          </p>
+          <p>
+          {{ form.description(placeholder="description in HTML") }}
+            <span class="error">
+              {% if form.description.errors %}
+                {% for error in form.description.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+          </p>
+          <button class="btn btn-sm btn-success" type="submit">Post</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="panel panel-success">
+    <div class="panel-body">
+        <a class="btn btn-sm btn-success" href="login">Sign in</a>
+        <a class="btn btn-sm btn-success" href="register">Register</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
